@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
-				.loginPage("/login")
+			//	.loginPage("/login")
 				.permitAll()
 				.and()
 			.logout()
@@ -38,10 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 	public UserDetailsService userDetailsService() {
 		UserDetails user =
 			 User.withDefaultPasswordEncoder()
-				.username("user")
-				.password("password")
+				.username("jordi")
+				.password("jordi")
                 .roles("USER")
-                .authorities("tono")
+                .authorities("aut1","aut2")
 				.build();
 
 		return new InMemoryUserDetailsManager(user);
