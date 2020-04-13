@@ -18,6 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 		http
 			.authorizeRequests()
 				.antMatchers("/", "/home").permitAll()
+				.antMatchers("/api/**").permitAll()
+				.antMatchers("/h2-console/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
@@ -26,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 				.and()
 			.logout()
 				.permitAll();
+		//to user h2-console with security
+		http.csrf().disable()
+		.headers().frameOptions().disable();
 	}
 
 	@Bean
