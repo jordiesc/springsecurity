@@ -33,6 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	      public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
 	        config.setBasePath("/api");
 	        config.exposeIdsFor(User.class);
+	        
 	      }
 	    };
 	  }

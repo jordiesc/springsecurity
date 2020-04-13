@@ -27,10 +27,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 				.permitAll()
 				.and()
 			.logout()
-				.permitAll();
+				.permitAll()
+				.and()
+				.httpBasic();
 		//to user h2-console with security
 		http.csrf().disable()
 		.headers().frameOptions().disable();
+		
 	}
 
 	@Bean
