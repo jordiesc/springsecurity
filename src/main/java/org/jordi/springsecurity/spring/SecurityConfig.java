@@ -2,6 +2,7 @@ package org.jordi.springsecurity.spring;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,6 +13,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter  {
     @Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -39,14 +41,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 	@Bean
 	@Override
 	public UserDetailsService userDetailsService() {
-		UserDetails user =
+		UserDetails user1 =
 			 User.withDefaultPasswordEncoder()
 				.username("jordi")
 				.password("jordi")
                 .roles("USER")
-                .authorities("aut1","aut2")
+                .authorities("POLICY_1","POLICY_2")
 				.build();
+			UserDetails user2 =
+			 User.withDefaultPasswordEncoder()
+				.username("pepe")
+				.password("pepe")
+                .roles("USER")
+                .authorities("POLICY_2")
+				.build();		
 
-		return new InMemoryUserDetailsManager(user);
+		return new InMemoryUserDetailsManager(user1,user2);
 	}
 }
