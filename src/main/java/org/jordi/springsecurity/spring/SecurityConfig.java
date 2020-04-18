@@ -2,6 +2,7 @@ package org.jordi.springsecurity.spring;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,11 +11,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 @Configuration
-@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter  {
     @Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -32,7 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 			.logout()
 				.permitAll()
 				.and()
-				.httpBasic();
+				.httpBasic()
+				.and().addFilterAfter(new CustomSampleFilter(), BasicAuthenticationFilter.class);
+		//http.addFilterBefore(
+		//			new CustomSampleFilter(), BasicAuthenticationFilter.class);
 		//to user h2-console with security
 		http.csrf().disable()
 		.headers().frameOptions().disable();
@@ -70,5 +75,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
         filter.setIncludeHeaders(true);
         filter.setAfterMessagePrefix("REQUEST DATA : ");
         return filter;
+	}
+	
+	
+	
+	@Bean("authenticationManager")
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }
