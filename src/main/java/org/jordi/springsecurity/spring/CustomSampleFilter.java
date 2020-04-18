@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,8 +22,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class CustomSampleFilter extends OncePerRequestFilter {
 
-    @Autowired
+//    @Autowired
+//    @Qualifier("authenticationManager")
     AuthenticationManager authenticationManager;
+    
+    public CustomSampleFilter(AuthenticationManager authenticationManager) {
+    	
+    	this.authenticationManager = authenticationManager;
+    }
 
     //@Override
     public void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -34,7 +41,13 @@ public class CustomSampleFilter extends OncePerRequestFilter {
         if (SecurityContextHolder.getContext().getAuthentication() == null
                 || !SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
 
-            UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken("jordi", "jordi");
+        	HttpServletRequest httpRequest = (HttpServletRequest) request;
+        	
+        	String skip = httpRequest.getHeader("skip");
+        	
+        	System.out.println("header skip:"+skip);
+        	
+        	UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(skip, skip);
             Authentication auth = authenticationManager.authenticate(authReq);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
@@ -54,7 +67,13 @@ public class CustomSampleFilter extends OncePerRequestFilter {
         if (SecurityContextHolder.getContext().getAuthentication() == null
                 || !SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
 
-            UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken("jordi", "jordi");
+        	HttpServletRequest httpRequest = (HttpServletRequest) request;
+        	
+        	String skip = httpRequest.getHeader("skip");
+        	
+        	System.out.println("header skip:"+skip);
+        	
+        	UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(skip, skip);
             Authentication auth = authenticationManager.authenticate(authReq);
             SecurityContextHolder.getContext().setAuthentication(auth);
 

@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 				.permitAll()
 				.and()
 				.httpBasic()
-				.and().addFilterAfter(new CustomSampleFilter(), BasicAuthenticationFilter.class);
+				.and().addFilterAfter(new CustomSampleFilter(super.authenticationManagerBean()), BasicAuthenticationFilter.class);
 		//http.addFilterBefore(
 		//			new CustomSampleFilter(), BasicAuthenticationFilter.class);
 		//to user h2-console with security
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 				.username("jordi")
 				.password("jordi")
                 .roles("USER")
-                .authorities("POLICY_1","POLICY_2")
+                .authorities("POLICY_1")
 				.build();
 			UserDetails user2 =
 			 User.withDefaultPasswordEncoder()

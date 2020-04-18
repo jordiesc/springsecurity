@@ -29,3 +29,9 @@ $ curl http://localhost:8080/restapi/current -u jordi:jordi
 100    26    0    26    0     0    268      0 --:--:-- --:--:-- --:--:--   270{"id":null,"name":"jordi"}
 
 ```
+
+# Custom Filter
+
+nyapa per probar el custom  filtre
+
+curl http://localhost:8080/restapi/current  -H "skip: jordi"
