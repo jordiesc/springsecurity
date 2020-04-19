@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 				.permitAll()
 				.and()
 				.httpBasic()
-				.and().addFilterAfter(new CustomSampleFilter(super.authenticationManagerBean()), BasicAuthenticationFilter.class);
+				.and().addFilterBefore(new CustomSampleFilter(super.authenticationManagerBean()), BasicAuthenticationFilter.class);
 		//http.addFilterBefore(
 		//			new CustomSampleFilter(), BasicAuthenticationFilter.class);
 		//to user h2-console with security
